@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NSwag.AspNetCore;
 
 namespace LandingAPI
 {
@@ -27,6 +28,9 @@ namespace LandingAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            // Register the Swagger services
+            services.AddSwaggerDocument();
+
             services.AddRouting(opt => opt.LowercaseUrls = true);
         }
 
@@ -36,6 +40,15 @@ namespace LandingAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                //app.UseSwaggerUi3WithApiExplorer(opt =>
+                //{
+                //    opt.GeneratorSettings.DefaultPropertyNameHandling = NJsonSchema.PropertyNameHandling.CamelCase;
+                //});
+
+                // Register the Swagger generator and the Swagger UI middlewares
+                app.UseSwagger();
+                app.UseSwaggerUi3();
             }
             else
             {
